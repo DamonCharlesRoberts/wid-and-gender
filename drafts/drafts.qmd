@@ -1,0 +1,274 @@
+---
+title: |
+  Double jeopardy
+subtitle: The implications of gender on white's racial attitudes
+short-title: Double jeopardy
+published: "Working paper: please do not share without author permission*"
+code-repo: "Access the code, data, and analysis at <https://github.com/DamonCharlesRoberts/NEED_TO_MAKE_A_REPOSITORY>"
+author:
+  - name: Komal Preet Kaur
+    email: komal.kaur@colorado.edu
+    orcid: 0000-0001-9275-0906
+    affiliations: 
+      - id: CU
+        name: University of Colorado Boulder, Department of Political Science
+    attributes:
+      corresponding: false
+  - name: Damon C. Roberts
+    email: damon.roberts-1@colorado.edu
+    orcid: 0000-0002-4360-3675
+    affiliations:
+      - id: CU
+        name: University of Colorado Boulder, Department of Political Science
+    attributes:
+      corresponding: true   
+abstract: |
+  Do White women report a higher racial identity than men? We argue that White women associate stronger with other Whites due to concerns with experiencing discrimination on their racial and gender identities. white identity is a reaction to Whites who feel that the relative status of Whites is in decline. As women face discrimination, under some circumstances, rather than respond with empathy for other low status racial groups, concerns of facing discrimination for both their Whiteness and their gender will motivate their concerns to protect the racial status quo. We use the 2016 and 2020 American National Election Studies and original experimental data to examine our claim. 
+thanks: |
+  We would like to express our thanks to ...
+keywords:
+  - white identity
+  - racial attitudes
+  - gender
+  - framing
+date: today
+bibliography: references.bib
+format:
+  hikmah-pdf: default
+---
+ {{< pagebreak >}}
+```{r}
+#| label: "setup block"
+#| echo: false
+#| warning: false
+# Title: Preliminary analyses of ANES for White identity and gender project
+
+# Notes:
+    #* Description: Rscript to perform the exploratory analyses of the 2016 and 2020 ANES for the white identity and gender project
+    #* Updated: 2022-08-25
+    #* Updated by: dcr 
+    #* Comments: will need to clean the ideological identification variable (7-point) too. Code I have doesn't already do that for you.
+
+# Setup
+    #* Make sure you have installed the packages needed for this analysis. Uncomment and run those you don't have 
+# install.packages('box')
+# install.packages('dplyr')
+# install.packages('modelsummary')
+  #* Clean the data sets
+    #** 2016  ANES
+source('../code/preliminary_analyses/anes_2016_cleaning.r')
+    #** 2020 ANES
+source('../code/preliminary_analyses/anes_2020_cleaning.r')
+  #* Modularly load the functions we'd need for analyses
+box::use(
+    dplyr = dplyr[select, rename],
+    modelsummary = modelsummary[datasummary_skim, modelsummary],
+    broom = broom[tidy],
+    ggplot2 = ggplot2[ggplot, aes, geom_point, geom_vline, geom_linerange, theme_minimal, position_dodge, labs, theme, element_text],
+    #MASS = MASS[polr],
+    #sjPlot = sjPlot[plot_model],
+    #mediation = mediation[mediate]
+    #processR = processR[regEquation],
+    #lavaan = lavaan[sem]
+    rstanarm = rstanarm[stan_polr, R2],
+    parameters = parameters[parameters, standardize_names],
+    tidybayes = tidybayes[geom_pointinterval]
+)
+  #* Create empty models list object
+models = list()
+```
+# Introduction
+
+<!--#
+Paragrpah flow:
+1. White identity politics - what and why
+2. what is the puzzle? - missing link and why it is a consequential gap
+3. What we contend?
+4. How do we study it and what we find?
+5. What is our contribution?
+
+White identity recieves considerable scholarly attention in political science. Existing research establishes that White identity is relatively stable [@jardina_et-al_2020]. White identity is heightened in interracial contests [@petrow2018white]. Contrary to the popular assertion White identity is not a strong predictor for Trump's support when controlled for factors such as xenophobia and sexism. Whites report linked fate more than other races that is associated with higher levels of political participation [@berry2019white]. Individual-level predictors of White identity include......
+
+White identity is not only politically relevant, but also shapes policy preferences. For instance, @jardina2019white shows that White identity is associated with less preferences for immigration policies as racially diverse environment threatens White dominance. ...... 
+
+While a great deal has been explored, we do not yet know whether there are any gendered patterns to the white identity. This oversight is not particularly surprising given the overall trends in the empirical research in political science [@forman2022prevalence]. However, gender-sensitive analysis can bring fresh insights and refine our theories of political phenomena. In this article, we argue that examining gendered patterns can enhance our understanding on the origins and consequences of White identity in politics. There are reasons to believe that White women have different reasons than men to identify with their White identity. 
+
+The examination of White women's political behavior has revealed somewhat puzzling/counterintuitive patterns. White women tend to be more liberal than men [CITE]. Though White democratic women overwhelmingly supported Obama, but White women have been consistent supporters of Republican Preseidential candidates more than men [@junn2020gender]. Womanhood is important to White women and they tend to preserve White privilege [CITE]. 
+
+We propose a gendered hypothesis of white identity, which stipulates that gendered identity affects adherence to racial identity. White women have stronger connection with White identity than White men. Drawing on the literature on women and politics, we argue that White women draw their sense of privilege from their racial identity and attempt to compensate for the relative lack of privilege from their gender. 
+
+Using both observational and experimental data, we find that .... 
+
+We make several contributions. One, we analyse one of the central questions on white identity and expand our understanding of racial attitudes of Whites. As the United States is becoming more racially diverse, ............ . 
+
+The literature on intersectionality establishes that the perceptions and experiences from intersecting identities influence political psychology and behavior. We extend this literature by examining how dominant groups become closer to one identity when other identity puts them on a disadvantage, which can have further implications on ingroup and outgroup relations (can be mentioned in the discussion section).      
+-->
+
+Academics and political observers are documenting a shift in the approach that Republicans and conservatives are taking in their messages about race. Coverage among, large, nationwide news organizations connect the messaging strategy among Republicans to play up white victimhood as a way to justify their policy positions [@samuels_lewis_2022_fte]. Academics make similar claims connecting white identity with support for Donald J. Trump in the 2020 Presidential election [@jardina_et-al_2020]. Some non-academic analyses make the connection to the way that Trump frames individual problems as resulting from widespread discrimimnation against whites [@harwood_2022_cnn]. These elite messages stand in stark contrast to those that express racially resentful views of non-whites. As these racially resentful messages were popular, in particular, during Barack Obama's administration among conservatives [@tesler_2016], it appears that there has been a recent shift in Republican messaging. This is not to say, however, that Trump and other politicians do not express racially resentful views; he does. On balance, however, white grievance politics appears to play a larger role in elite messages than it used to. These messages play well among Whites - particularly among conservative men. Though some have attributed the shift in racial attitudes among the American public to Democrats who hold racially conservative views [@sides_et-al_2018], it remains unclear as to why Republicans believe a shift in messages that focus on the plight of one racial group as beneficial. 
+
+We argue that the shift from messages which focus on individual attributions of blame for poor circumstances among non-Whites and hostility toward systematic-level efforts to address it [see @winter_2008] to those that express concern with system-wide bias against Whites, may be partially attributable to the Republican party's concern with attracting White female voters. In the 1972 Presidential election, $38\%$ of women voted for the Democratic candidate, but in 2012 $52\%$ of women did [@chaturvedi_2016_pew]. However, about $52\%$ of White women voted for Trump in the 2016 Presidential election [@junn_2017_pgi]. Messages of racial resentment were more popular among racially conservative men CITATION. Though we cannot get into the heads of political strategists for the party, it is reasonable to assume that the party will try to expand its voting base and that it will focus on messages that are popular among segments of the population they want to attract. This means we will examine whether it is the case that these in-group oriented racialized messages are popular among White women.
+
+Using data from the 2016 and 2020 American National Election Studies (ANES) and original data from a series of experiments, we test the claim that making their messages more palatable to relatively more liberal views helped the Republican party in attracting White women who may hold racially conservative views but were turned off by messages of racial resentment. The results demonstrate that ...
+
+# Explaining the white identity gender gap
+Identity is a multifaceted concept. Social identity theory argues that identity salience is a function of contexts and cues. 
+"White skin provides white people with the privilege to connect with other
+white people, to seemingly remove ourselves from an oppressed state, because
+a knight in shining armor protects us." [@anderson2021rebirthing, p.19]. 
+
+
+
+
+### Hypotheses
+$H_1:$ We expect that White women report a higher white identity than White men; when controlling for partisan identification.
+$H_2:$ We expect that when we hold partisanship constant, liberal women will report a higher white political identity than conservative men.
+$H_3:$ We expect that liberal women report a higher white identity because they find the message communicating white grievances more palatable than those expressing racial animus.
+
+
+
+# Methods
+
+## Study 1
+
+For Study 1 we use the 2016 and 2020 ANES. There are two primary reasons we rely on survey data. The first reason is that we want to establish whether there is a gender gap in white identity and whether white identity is more popular among liberal women relative to conservative men - who tend to find raically resentful messages more appealing.  Second, the conservative media did not exclusively focus on white identity politics but also expressed a fair amount of racial resentment as well (e.g., praising Trump's comments that conflated immigrants with gang-affiliated criminals [@derespina_2017_fox]), so we want to examine the effects of conservative media on the whole as opposed to one particular type of message.
+
+The 2016 ANES was in the field from September, 2016 to January, 2017. As we are focusing on Whites, we subset our dataset to those who self-identify as White. This leaves us with a sample of `r nrow(anes_2016[['cleaned']])` respondents. However, we expect for there to be less once we account for missing observations. @tbl-2016-descriptive-stats provides the unweighted characteristics of the sample.
+
+The 2020 ANES was in the field from August, 2020 until December, 2020. The sample contains `r nrow(anes_2020[['cleaned']])` White respondents^[This does not account for observations with missing values.]. @tbl-2020-descriptive-stats provides the unweighted characteristics of the sample.
+
+Both samples ask white respondents ``How important is being White to your identity". Respondents then can report the degree to which they or disagree with the statement along a 5-point Likert scale. We code responses to this question as increasing agreement. We use this as our measure of white identity as it is a self-identification with their Whiteness and, in the context of the survey, should measure this identification when primed by politics. Though it does not capture linked fate with other whites, we agree with other scholars using these datasets that it should be sufficient to measure white identity [@perez_et-al_2021_pp]. 
+
+Both samples ask respondents about their gender identity as well. For this particular analysis we are interested in the differences between male and female identifying respondents. Though it is somewhat reductive, we code a dichotomous measure of whether the respondent is male or female. We exclude respondents who report that they do not identify with these two gender identities.
+
+First, we start with a simple difference of means test to examine whether there are differences between men and women on white identity. Given our hypotheses, we expect that we should find that men report a higher level of white identity as this test does not control for partisanship. As white identity is coded ordinally and gender is coded dichotomously, we perform this test using a Wilcoxon non-parametric t-test as opposed to the standard t-test.
+
+Second, we expect that once we account for partisanship, women will be more likely to report a higher white identity than men. To examine this, we fit a model using the logit$^-1$ link function. For the fitted model, we specify our prior using the $R2$ distribution as we expect that the cutpoints from the $k-1$ logistic regressions will explain approximately $0.3$ of the variance in the variance of our latent outcome [see @gelman_et-al_2021]. We fit this model on $6$ chains with $2000$ iterations.
+
+Third, as we expect this gender gap to be the result of the palatability of in-group messages, we expect that, when holding partisan identification constant, more liberal women will express a white identity and that more conservative men will score relatively lower on white identity as racially animous views will be more attractive.
+
+### Results
+```{r}
+#| label: "diff of means"
+#| echo: false
+# Analysis
+wilcox = list()
+  #* diff of means
+wilcox[['anes_2016']] = wilcox.test(anes_2016[['cleaned']]$female, anes_2016[['cleaned']]$wid, alternative = 'two.sided', conf.int = TRUE) |>
+  tidy() |>
+  mutate(year = '2016')
+wilcox[['anes_2020']] = wilcox.test(anes_2020[['cleaned']]$female, anes_2016[['cleaned']]$wid, alternative = 'two.sided', conf.int = TRUE) |>
+  tidy() |>
+  mutate(year = '2020')
+```
+
+The Wilcoxon test suggests that men report higher White identity than women. This occurs in 2016 (estimate = ```r sprintf('%.2f',wilcox[['anes_2016']]$estimate) ```, p = ```r sprintf('%.3f',wilcox[['anes_2016']]$p.value)```) and in 2020 (estimate = ```r sprintf('%.2f', wilcox[['anes_2020']]$estimate)```, p = ```r sprintf('%.3f',wilcox[['anes_2020']]$p.value)```). However, men tend to be more conservative than women. To test $H_1$, we examine whether White women report higher levels of White identity when we control for partisanship.
+
+```{r}
+#| label: fig-h_1
+#| fig-cap: "Higher odds of women reporting white identity when controlling for Party ID"
+#| echo: false
+#| message: false
+#| warning: false
+  #* Hypothesis 1
+models[['anes_2016']] = stan_polr(as.factor(wid) ~ female + pid, data = anes_2016[['cleaned']], method = 'logistic', prior = R2(0.1, 'mean'), seed = 90210, chains = 6, iter = 1000, refresh = 0)
+models[['anes_2016_tidy']] = parameters(models[['anes_2016']], conf.int = 0.95, verbose = FALSE) |>
+  standardize_names(style = 'broom') |>
+  data.frame() |>
+  mutate(model = '2016') |>
+  mutate(term = case_when(term == 'female' ~ 'Female', term == 'pid' ~ 'Party ID'),
+        estimate = exp(estimate),
+        conf.low = exp(conf.low),
+        conf.high = exp(conf.high)) |>
+  filter(!is.na(term))
+
+models[['anes_2020']] = stan_polr(as.factor(wid) ~ female + pid, data = anes_2020[['cleaned']], method = 'logistic', prior = R2(0.1, 'mean'), seed = 90210, chains = 6, iter = 1000, refresh = 0)
+models[['anes_2020_tidy']] = parameters(models[['anes_2020']], conf.int = 0.95, verbose = FALSE) |>
+  standardize_names(style = 'broom') |>
+  data.frame() |>
+  mutate(model = '2020') |>
+  mutate(term = case_when(term == 'female' ~ 'Female', term == 'pid' ~ 'Party ID'),
+        estimate = exp(estimate),
+        conf.low = exp(conf.low),
+        conf.high = exp(conf.high)) |>
+  filter(!is.na(term))
+
+models[['combined']] = rbind(models[['anes_2016_tidy']], models[['anes_2020_tidy']])
+
+ggplot(data = models[['combined']], aes(y = term, x = estimate, xmin = conf.low, xmax = conf.high, linetype = factor(model), shape = factor(model))) +
+  geom_pointinterval(position = position_dodge(width = -0.4), size = 3) +
+  theme_minimal() +
+  labs(linetype = 'Model', shape = 'Model', x = 'Estimate', y = '', caption = 'Data Source: 2016, 2020 ANES.\n Dots represent median draw from posterior distribution and scaled as the odds ratio.\n Bars represent 95% credible intervals.') +
+  theme(text=element_text(size = 13, family = 'sans'))
+
+```
+
+@fig-h_1 visualizes the distributions of the posterior draws from the fitted model^[ @tbl-2016-2020-ordered-logits presents the full table of results.]. Both models suggest that women are more likely to report more white identity than men when we hold partisan identification constant. Specifically, for 2016 our model suggests that women are ```r sprintf('%.2f', (models[['anes_2016_tidy']]$estimate[1] - 1)* 100) ```% more likely to report a white  identity when controling for partisan identification. 2020 suggests similar patterns with women  ```r sprintf('%.2f', (models[['anes_2020_tidy']]$estimate[1] - 1)*100) ```% more likely to report a White identity when holding partisanship constant. The credible intervals of both models also suggest a low probability that, given the data, the estimated relationship in 2016 and 2020 is null.
+
+This analysis, however, does not test our mechanism. Our analysis thus far does suggest that the gender gap exists on in-group racial attitudes and that it is dependent on whether you consider partisanship. We expect, however, that these messages are more palatable to women as a result of their tendency to be more liberal. That is, liberals are likely to reject messages expressing explicit racially resentful attitudes but are likely still attracted to racialized messages that makes them feel like they are victims too.
+
+
+# Discussion
+
+
+{{< pagebreak >}}
+
+# Appendix
+
+## Descriptive statistics
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-2016-descriptive-stats
+#| tbl-cap: 2016 Descriptive statistics
+#| echo: false
+#| warning: false
+
+# Tables
+    #* Descriptive statistics
+        #** 2016 ANES
+anes_2016[['cleaned']] |>
+    select(wid, female, pid, conserv_media, gender_discrim) |>
+    rename(`White identity` = wid,
+            `Female` = female,
+            `Party ID` = pid,
+            `Conservative media` = conserv_media,
+            `Gender discrimination` = gender_discrim) |>
+    datasummary_skim(histogram = FALSE, notes = c('Note: Unique column includes NA values.', 'Data source: 2016 American National Election Study.'), output = 'latex')
+```
+
+```{r}
+#| label: tbl-2020-descriptive-stats
+#| tbl-cap: 2020 Descriptive statistics
+#| echo: false
+#| warning: false
+
+        #** 2020 ANES
+anes_2020[['cleaned']] |>
+    select(wid, female, pid, conserv_media, gender_discrim) |>
+    rename(`White identity` = wid,
+            `Female` = female,
+            `Party ID` = pid,
+            `Conservative media` = conserv_media,
+            `Gender discrimination` = gender_discrim) |>
+    datasummary_skim(histogram = FALSE, notes = c( 'Note: Unique column includes NA values.', 'Data source: 2020 American National Election Study.'), output = 'latex')
+```
+
+
+## Models
+
+
+```{r}
+#| label: tbl-2016-2020-ordered-logits
+#| tbl-cap: Women have higher log-likelihood of reporting high white identity when controlling for Party ID
+#| echo: false
+#| warning: false
+gm = list(list('raw' = 'nobs', 'clean' = 'N', fmt = 0))
+model_table = list(
+  '2016' = models[['anes_2016']],
+  '2020' = models[['anes_2020']]
+)
+modelsummary(model_table, output = 'latex', gof_map = gm, coef_map = c('female' = 'Female', 'pid' = 'Party ID', '1|2' = 'Threshold 1', '2|3' = 'Threshold 2', '3|4' = 'Threshold 3', '4|5' = 'Threshold 4'), statistic = 'conf.int', notes = list('Brackets represent credible intervals at the 95-percent level.','Point estimates are the logged odds ratios.', 'Data source: 2016, 2020 American National Election Study.'))
+```
+
+{{< pagebreak >}}
