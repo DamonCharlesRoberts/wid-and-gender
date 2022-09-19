@@ -1,6 +1,6 @@
 # Double jeopardy: The implications of gender on white's racial attitudes
 
-Github repository for academic project titled "Double jeopardy: the implications of gender on white's racial attitudes
+Github repository for academic project titled "Double jeopardy: the implications of gender on white's racial attitudes.
 
 # File structure
 - data/
