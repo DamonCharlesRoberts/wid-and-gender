@@ -36,8 +36,6 @@ author:
       corresponding: true   
 abstract: |
   Do White women report a higher racial identity than men? White political identity and co-racial attitudes recieve considerable scholarly and public attention in the post-Trump era. The field does not yet know why White men tend to hold more racially resentful views while White women tend to express more in-group oriented racial views. We argue that this gender gap reflects differences in what appeals are most attractive and that the palatability of these messages are governed by ideological differences. Using data from the 2016 and 2020 American National Election Studies (ANES), our evidence suggests that once we hold partisanship constant, Women report a higher White political identity than men. Using data from an experiment, we then examine the mechanism we argue underlies this phenomenon. Our results highlight the importance of considering gender-race identities in evaluating White identity in the United States. 
-thanks: |
-  We would like to express our thanks to ...
 additional-info: |
   We have no known conflict of interest to disclose.
 keywords:
@@ -72,7 +70,7 @@ The conceptualization of white identity heavily relies on social identity theory
 
 Though race is heavily intertwined with partisan identification [@engelhardt_2020;@westwood_peterson_2022_pb], which is argued to be a central identity for Americans [@mason_2015_ajps], evidence suggests that both white Democrats and Republicans identify with their race; though white identity is a strong predictor of support for Trump in the 2016 election [@jardina_et-al_2020].
 
-Whites protecting their status is not a new idea [see @painter_2010_ww], however, scholars are reconsidering the way that it manifests. The tendency for those studying the attitudes of white Americans is to examine their out-group attitudes. After all, racism in America has deep cultural and institutional roots [@lopez_2006_nyu;@painter_2010_ww;@rile-hayward_2013_cup;@al-ramiah_hewstone_2013]. Scholars in this area understand that racial animus -- prejudice held toward non-whites [@kam_burge_2019] -- guides news coverage of American politics [@winter_2008], attitudes toward government spending [@gilens_1999; @hopkins_2009;@tesler_2016], attitudes toward vote choice [@sides_et-al_2018]; and the campaign strategies of candidates [@stephens-dougan_2020]. 
+Whites protecting their status is not a new idea [see @painter_2010_ww], however, scholars are reconsidering the way that it manifests. The tendency for those studying the attitudes of white Americans is to examine their out-group attitudes. After all, racism in America has deep cultural and institutional roots [@lopez_2006_nyu;@painter_2010_ww;@rile-hayward_2013_cup;@al-ramiah_hewstone_2013]. Scholars in this area understand that racial animus, prejudice held toward non-whites [@kam_burge_2019], guides news coverage of American politics [@winter_2008], guides attitudes toward government spending [@gilens_1999; @hopkins_2009;@tesler_2016], guides attitudes toward vote choice [@sides_et-al_2018]; and guides the campaign strategies of candidates [@stephens-dougan_2020]. 
 
 Racialized attitudes for whites depend on a number of factors. For example, from a social psychological perspective, both in-and-out-group racial attitudes are guided by a sense of status loss [@morrison_et-al_2009]. Whether this status loss is economic or is social and cultural is up for debate [see @roberts_2022_wp], many examples abound of whites' attitudes shifting when faced with a sense of change to the racial status quo [@bobo_1983;@albertson_gadarian_2015;@craig_richeson_2014]. Looking ascriptively, racially inclusive messages appear to be more popular among white woman relative to white men [@hutchings_et-al_2004_poq]. White men also were much less willing to support Obama relative to white women [@junn_2020_pop]. Some may assume that age matters, however, evidence suggests that once we adjust our measures of racialized attitudes, generational gaps disappear [@desante_smith_2020_chicago] and that the "old-fashioned racism" of the Jim Crow era remains [@tesler_2013].
 
@@ -308,7 +306,7 @@ models[['combined']] = rbind(models[['anes_2016_tidy']], models[['anes_2020_tidy
 ggplot(data = models[['combined']], aes(y = term, x = estimate, xmin = conf.low, xmax = conf.high, linetype = factor(model), shape = factor(model))) +
   geom_pointinterval(position = position_dodge(width = -0.4), size = 3) +
   theme_minimal() +
-  labs(linetype = 'Model', shape = 'Model', x = 'Estimate', y = '', caption = 'Data Source: 2016, 2020 ANES.\n Dots represent median draw from posterior distribution.\n Bars represent 95% credible intervals.\n Scaled as odds ratio.') +
+  labs(linetype = 'Model', shape = 'Model', x = 'Estimate', y = '', caption = 'Data Source: 2016, 2020 ANES.\n Dots represent median draw from posterior distribution.\n Bars represent 95% credible intervals.\n Scaled as odds ratios.') +
   theme(text=element_text(size = 13, family = 'sans'))
 ```
 
