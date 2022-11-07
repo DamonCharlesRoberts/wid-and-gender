@@ -7,3 +7,4 @@ data/
 drafts/abstract.pdf
 drafts/*.md
 .Rhistory
+.Rproj.user
