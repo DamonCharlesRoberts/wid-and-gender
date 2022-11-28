@@ -1,0 +1,44 @@
+\documentclass[12pt]{article}%specify document class
+\usepackage{hyperref}%for referencing and cross-referencing
+\usepackage{setspace}%for spacing of lines
+\usepackage[margin=1.2in]{geometry}% for dealing with margins
+\usepackage{fancyhdr}%for the headers
+\usepackage[english]{babel}%for specifying english
+\usepackage[style=apa, backend=biber]{biblatex}%for bibliography
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=annote, null]
+      \step[fieldset=annote, null]
+      \step[fieldset=annote, null]
+    }
+  }
+} % ignore annote field
+\addbibresource{$for(bibliography)$$bibliography$$endfor$}%accessing the bilbiography file specified in the qmd
+\pagestyle{fancy}%specifying the type of page
+\setlength{\headheight}{38pt}%set the header size
+\usepackage[x11names]{xcolor}%for adding some nice colors to the hyperrefs
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!50!blue},
+    citecolor={blue!50!blue},
+    urlcolor={blue!80!blue}
+}
+\usepackage{pdfpages}%to include pdfs
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}%to add the bar under the header
+\def\tightlist{}%to create an emptymacro to deal with pandoc's weird way of handling lists
+\usepackage{soul}%to highlight text
+\begin{document}
+
+\lhead{$for(by-author)$$it.name.literal$ \\ $for(it.affiliations)$$it.name$ $endfor$ \\ \url{$it.email$}$endfor$} 
+\rhead{$title$ \\ $subtitle$ \\ \today}
+
+\cfoot{\thepage}
+
+$body$
+
+$if(bibliography)$
+    \newpage
+    \printbibliography
+$endif$
+\end{document}
