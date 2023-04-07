@@ -1,0 +1,517 @@
+---
+title: |
+  Not absent, just different:
+subtitle: The implications of gender on white's racial attitudes
+short-title: Not absent, just different
+published: "Working paper: please do not share without author permission*"
+code-repo: "Replication materials are stored at <https://github.com/DamonCharlesRoberts/wid-and-gender>"
+author:
+  - name: Damon C. Roberts
+    email: damon.roberts-1@colorado.edu
+    orcid: 0000-0002-4360-3675
+    title: PhD Candidate
+    affiliations:
+      - id: CU
+        name: University of Colorado Boulder
+        department: Political Science
+        address: 333 UCB
+        city: Boulder
+        region: CO 
+        postal-code: 80309-0333
+    attributes:
+      corresponding: true
+  - name: Courtney J. Nava
+    email: courtney.j.johnson@colorado.edu
+    title: PhD Candidate
+    affiliations:
+      - id: CU
+        name: University of Colorado Boulder
+        department: Political Science
+        address: 333 UCB
+        city: Boulder
+        region: CO
+        postal-code: 80309-0333
+    attributes:
+      corresponding: false   
+  - name: Komal Preet Kaur
+    email: komal.kaur@colorado.edu
+    orcid: 0000-0001-9275-0906
+    title: PhD Candidate
+    affiliations: 
+      - id: CU
+        name: University of Colorado Boulder
+        department: Political Science
+        address: 333 UCB
+        city: Boulder
+        region: CO 
+        postal-code: 80309-0333
+    attributes:
+      corresponding: false
+abstract: |
+  Are common measures of racial animus and racial identity sufficient to detect gendered differences? The existing literature on gendered political socialization suggests that a number of predictors for racial attitudes, and they way they are expressed, vary depending on if one identifies as a man or a woman. As these precursors to racial attitudes vary on gender, we should expect that the *ways* in which men and women express their racial attitudes may vary as well. Without accounting for this variation in our measures of in-and-out-group racial attitudes, we are likely missing important information about how racial attitudes vary between self-identifying men and women. In this project, we argue that current conceptualizations and measures of racial animus and racial identity are strongly correlated with common outcomes to gendered differences in political socialization. We warn that this may lead to a misunderstanding of a gender gap in racial attitudes when we conceptualize those racial attitudes in one form and not the other. We first present data from the American National Election Study that demonstrates the strong correlation between gender and one's score on racial animus and white political identity. Then, we present a pre-analysis plan for an original survey to capture each item response to predict the gender of the respondent.
+additional-info: |
+  We have no known conflict of interest to disclose.
+keywords:
+  - white identity
+  - racial attitudes
+  - gender
+  - elite messaging
+date: today
+bibliography: ../../assets/references.bib
+nocite: |
+  @R
+format:
+  hikmah-pdf:
+    latex-output-dir: "../../drafts/mpsa"
+    biblatex-chicago: true
+    biblio-style: authordate
+    biblatexoptions: 
+      - backend=biber
+      - autolang=hyphen
+      - isbn=false
+      - uniquename=false
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup-block
+
+# Source cleaning scripts
+source("preliminary_analysis/2016ANESCleaning.r")
+source("preliminary_analysis/2020ANESCleaning.r")
+
+# Load relevant packages
+box::use(
+  data.table[...],
+  modelsummary[datasummary_skim],
+  ggplot2[ggplot,geom_boxplot, aes, theme_minimal, labs],
+  patchwork[...]
+)
+```
+
+{{< pagebreak >}}
+
+# Introduction {#sec-introduction}
+
+What we learn in our adolescense and childhood often have long-term impacts on our political attitudes throughout adulthood [see @sapiro_2004]. This socialization not only influences views on taxation, but also on attitudes about race [see @sears_brown_2013]. This socialization is not homogenous however. Women are often taught about politics differently. Women are often taught that politics is not a domain where they can manage pressures to remain feminine [@schneider_bos_2018_pp], be successful in politics, and that it is not built for them [@bos_et-al_2021_apsr].
+
+We argue that one important outcome of the differences in the political socialization of men and women is differences in how White men and women express their racial attitudes. As gender identity moderates expression of social dominance orientation [@wilson_liu_2003_bjsp], we should expect that expressions of in-and-out-group racial attitudes appear differently. We do not argue that there is a gender gap in racial attitudes, but rather that differences in socialization among White men and women lead to different ways in which racial attitudes are expressed between those who identify as a man or a woman. Specifically, we predict that White women express racial attitudes that are oriented more communally whereby they express their racial attitudes through in-group oriented racial identification and White men express it through out-group oriented racial animus.
+
+Our argument implies that common measures of racial attitudes are highly correlated with gender as a result of underlying differences in what individuals were taught as "appropriate" for their gender. After elaborating on our argument and defining these concepts, we use the American National Election Study to establish correlations between common measures of racial identity and White political identity with gender identiification. We then present a pre-analysis plan to collect original survey data where we adjust common batteries for racial attitudes to include and exclude items that load onto Social Dominance Orientation. The implication of our project is that we must be careful about making claims about the differences in racial attitudes along the dimension of gender if we do not conceptualize or measure racial attitudes in a way that neutralize underlying differences in political socialization among men and women.
+
+# Conceptualizing social dominance orientation and racial attitudes
+
+Social dominance orientation is conceptualized as an expression of prejudice with the functional goal of maintaining social order or hierarchy through hyperawareness to potential threats to that hierarchy [see @levin_et-al_2002_pspb]. It means that those who express racial prejudice often do so with the goal of maintaining the racial status quo. This concept is distinct from right wing authoritarianism which is conceptualized as a desire for traditional views to act as an authority for how society functions [see @duckitt_sibley_2010_ejp].
+
+Both social dominance orientation and right-wing authoritarianism explain individuals' racial attitudes [@kteily_et-al_2011_jesp]. However, social dominance orientation often moderates racial prejudice when faced with groups that are both culturally different and economically competitive, whereas right wing authoritarianism moderates attitudes toward groups that are culturally different [@duckitt_sibley_2010_ejp]. In terms of attitudes toward immigrant groups, those high on social dominance orientation are less supportive of immigration to their own country, whereas those high in right wing authoritarianism are unsupportive of immigration more generally [@craig_richeson_2014_pp].
+
+Common conceptualizations of racial attitudes in political science are often depicted as out-group oriented versus in-group oriented [@huddy_2012]. Out-group oriented attitudes are expressed as holding negative stereotypes and prejudice against racial groups not part of your own [@blumer_1958_psr] whereas in-group oriented racial attitudes reflect a willingness to identify with a racial group and a concern for the relative social positioning of one's racial group [@huddy_2012].
+
+In-and-out-group racial attitudes explain different outcomes in American politics. Out-group racial attitudes often predict lower support for social welfare programs [@winter_2008_ucp], a increased belief that other racial groups are less deserving of government assistance [@gilens_1999_ucp], increased dislike towards President Barack Obama and salient policies he was a promoter of [@tesler_2013_jop; @tesler_2016_ucp], and increased entrenchment of Whites on their racial attitudes [@craig_richeson_2014_pp], among many other things. In-group oriented racial attitudes on the other hand, often predict racial polarization [@engelhardt_2020], support for Donald J. Trump in the 2016 presidential election [@jardina_2019_cup; @jardina_et-al_2020_pp], and the tendency for messages expressing white victimhood to be appealing [@samuels_lewis_2022_fte; @harwood_2022_cnn; @jardina_2019_cup].
+
+# How racial attitudes may be expressed differently based on gender identity
+
+Men and Women are not both taught equally that politics is a place for them. Previous research demonstrates that these messages are common in materials for young children in school [@lay_et-al_2021_pg]. Such messages are internalized early in a child's life as many children often imagine men occupying political office as opposed to women [@bos_et-al_2021_apsr].
+
+These socialized differences between men and women do not just occur as messages that women do not belong in politics, but they occur as other taught differences in how to interact with other people. One such example is that women tend to be more conflict avoidant and less self-confident which both predict lower political participation and tendency to seek office[@wolak_2020_jop; @wolak_2022_pb].
+
+Women are documented to exhibit less social dominance orientation than men [see @wilson_liu_2003_bjsp]. We might expect that this is rooted in deep gendered norms and stereotypes. Social dominance orientation appears to be socialized in that many children tend to prefer equality early but often shift towards exhibiting more preferences for defending hierarchy when parented by those high in social dominance orientation [@reifen-tagar_cimpian_2022_pp; @guidetti_et-al_2021_plos]. Rooted in a deep history of White supremicist ideology, American society hold White women as symbols of purity and often put pressure on them to protect the purity of the White race [@junn_2017_pgi]. Furthermore, gendered stereotypes are rife in politics where men are often considered to be defenders and protectors from many physical threats, whereas women are seen more as caretakers [@huddy_terkildsen_1993_prq; @holman_et-al_2016_prq]. These stereotypes of masculinity fit closely with social dominance orientation in that both are conceptualized as reactions to threat. This may explain differences in social dominance orientation between men and women[^1].
+
+[^1]: Though see @sidanius_et-al_1994_jpsp.
+
+We believe that these gendered differences in social dominance orientation lead to differences in the *way* in which men and women are taught to express racial attitudes. Though others have suggested a gender gap in racial animus [see @hutchings_et-al_2004_poq], we argue that this is likely the result of the measures we are using as opposed to White women being less racist than White men. We believe that measures of racial attitudes that correlate highly with social dominance orientation will are more attractive to White respondents socialized with masculine gender stereotypes and less attractive to White respondents socialized with more feminine gender stereotypes. This means that we should expect self-identifying men and women to have a "gap" in their expression of racial attitudes depending on whether or not the measures are reflective of a desire to protect the racial hierarchy versus a desire to be a caretaker or steward of it.
+
+# The relationship between common measures of racial attitudes and gender identification
+
+In political science, the first of the two common measures for racial attitudes is often a variation of the racial resentment scale, which reflects one's support of racial stereotypes and justification of Whites' relative racial status in American society [@kinder_sanders_1996]. It is a reflection of racial out-group attitudes [@kinder_sanders_1996]. White political identity is a popular measure of Whites' willingness to identify with other whites, view their White identity as relevant to politics, and express concern for Whites' relative racial positioning in society [@jardina_2019_cup; @jardina_2020_pb]. It is a reflection of in-group attitudes [@jardina_2019_cup].
+
+The American National Election Study includes a modified version of the racial resentment battery and the battery used by @jardina_2019_cup for white political identity is in a pilot study. However, we use what is available in the 2020 American National Election Study. The wording used for these batteries are included in @tbl-race-resent-and-identity-battery.
+
++--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Racial resentment        | -   Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Blacks should do the same without any special favors. |
+|                          | -   Generations of slavery and discrimination have created conditions that make it difficult for blacks to work their way out of the lower class.      |
+|                          | -   Over the past few years, blacks have gotten less than they deserve.                                                                                |
+|                          | -   It's really a matter of some people not trying hard enough; if blacks would only try harder they could be just as well off as whites               |
++--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| White political identity | -   How important is being white to your identity? (2016 and 2020 ANES)                                                                                |
+|                          | -   To what extent do you feel that white people in this country have a lot to be proud of?                                                            |
+|                          | -   How much would you say that whites in this country have a lot in common with one another?                                                          |
++--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+: Common measures of racial resentment and white political identity {#tbl-race-resent-and-identity-battery}
+
+We believe these items to appeal differently to white men and women due to gender-based differences in social dominance orientation. The measure of racial resentment in the American National Election Study appears to reflect desire to maintain the racial hiearchy and to engage in system justification for Black American's mistreatment. System justification is commonly associated with social dominance orientation attitudes as system legitimizing beliefs are often a reflection of beliefs that the current system creating this hierarchy is not only justified but that it also should not be changed [see @levin_et-al_1998_pp; @levin_et-al_2002_pspb]. Many of the measures for white political identity, on the other hand, are much less focused on capturing beliefs in systems establishing hierarchy, but rather is more focused on the communal well-being of the racial group. In the realm of politics, gender stereotypes often presume that women are much more communal, less combative, and the socialization of women to buy into those stereotypes often appear in politics [see @wolak_mcdevitt_2011_pb; @lay_et-al_2021_pg; @wolak_2022_pb; @conroy_green_2020]. There are measures in the white identity battery that seemingly do appeal towards a protectionist view of other Whites that may be attractive to those scoring highly on social dominance orientation.
+
+We first take a look at the 2016 and 2020 American National Election Studies to descriptively get an understanding of the correlation between gender identification of White respondents and available measures for racial resentment and white political identity. For both studies, we use the `data.table` R package [@dataTable] to recode the the gender (0 = Male, 1 = Female), racial resentment (average of response to likert scale ranging from 1 = Strongly Disagree to 5 = Strongly Agree), white identity (1 = Not at all important to 5 = Very important), and party identification variables (1 = Strong Democrat to 7 = Strong Republican). In @tbl-study-1-descriptive-stats-2016 and @tbl-study-1-descriptive-stats-2020 we present the unweighted summary statistics of the sample on these variables using the `modelsummary` package [@modelsummary].
+
+```{r}
+#| label: tbl-study-1-descriptive-stats-2016
+#| tbl-cap: Descriptive statistics of the 2016 ANES
+
+# Make a subset of the data.frame
+Anes2016[["subset"]] <- Anes2016[["cleaned"]][
+  , .(female, pid, wid, raceResent) # select these columns and store in new dataframe
+]
+setnames(
+  Anes2016[["subset"]],
+  old = c("female", "pid", "wid", "raceResent"), # rename these columns
+  new = c("Female", "Party ID", "White Identity", "Racial resentment") # to this
+)
+labelled::var_label(
+  Anes2016[["subset"]]$`Party ID`
+) <- "Party ID" # change the variable label to the name
+
+# Make the table
+datasummary_skim(
+  Anes2016[["subset"]],
+  notes = "Data source: 2016 American National Election Study."
+)
+```
+
+```{r}
+#| label: tbl-study-1-descriptive-stats-2020
+#| tbl-cap: Descriptive stats of the 2020 ANES
+
+Anes2020[["subset"]] <- Anes2020[["cleaned"]][
+  , .(female, pid, wid, raceResent)
+]
+setnames(
+  Anes2020[["subset"]],
+  old = c("female", "pid", "wid", "raceResent"),
+  new = c("Female", "Party ID", "White Identity", "Racial resentment")
+)
+datasummary_skim(
+  Anes2020[["subset"]],
+  notes = "Data source: 2020 American National Election Study."
+)
+```
+
+```{r}
+#| label: fig-box-whisker-plot
+#| layout-ncol: 2
+#| fig-cap: "Differences between White men and women on Racial resentment and White identity measures"
+#| fig-subcap:
+#|  - "Racial resentment - 2016"
+#|  - "White identity - 2016"
+#|  - "Racial resentment - 2020"
+#|  - "White identity - 2020"
+# Simple cleaning
+Anes2016[["box"]] <- Anes2016[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+]
+Anes2020[["box"]] <- Anes2020[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+]
+Anes2016[["box"]] <- na.omit(Anes2016[["box"]], cols = c("Female"))
+Anes2020[["box"]] <- na.omit(Anes2020[["box"]], cols = c("Female"))
+# Make plots
+raceResentPlot2016 <- ggplot(
+  data = Anes2016[["box"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+widPlot2016 <- ggplot(
+  data = Anes2016[["box"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "White identity",
+  caption = "Data source: 2016 American National Election Study."
+)
+
+raceResentPlot2020 <- ggplot(
+  data = Anes2020[["box"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2020 American National Election Study."
+  )
+
+widPlot2020 <- ggplot(
+  data = Anes2020[["box"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "White identity",
+  caption = "Data source: 2020 American National Election Study."
+)
+
+raceResentPlot2016 
+widPlot2016
+raceResentPlot2020
+widPlot2020
+```
+
+We first want to examine simple gendered differences between the racial resentment and white political identity variable. In @fig-box-whisker-plot we present a box-and-whisker plot generated with the `ggplot2` package [@ggplot2] for these two variables for White men and White women. We do not observe much of a difference between men and women on these measures. We break this down by partisanship. @fig-box-whisker-plot-republican displays box-and-whisker plots for Republicans (including leaners) and @fig-box-whisker-plot-democrat displays box-and-whisker plots for Democrats (including leaners).
+
+```{r}
+#| label: fig-box-whisker-plot-republican
+#| layout-ncol: 2
+#| fig-cap: "Differences between Republican White men and women on Racial resentment and White identity measures"
+#| fig-subcap:
+#|  - "Racial resentment - 2016"
+#|  - "White identity - 2016"
+#|  - "Racial resentment - 2020"
+#|  - "White identity - 2020"
+# Simple cleaning
+Anes2016[["boxRepublican"]] <- Anes2016[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+][
+  pid >= 5
+]
+Anes2020[["boxRepublican"]] <- Anes2020[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+][
+  pid >= 5
+]
+Anes2016[["boxRepublican"]] <- na.omit(Anes2016[["boxRepublican"]], cols = c("Female"))
+Anes2020[["boxRepublican"]] <- na.omit(Anes2020[["boxRepublican"]], cols = c("Female"))
+# Make plots
+raceResentRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+widRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "White identity",
+  caption = "Data source: 2016 American National Election Study."
+)
+
+raceResentRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2020 American National Election Study."
+  )
+
+widRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "White identity",
+  caption = "Data source: 2020 American National Election Study."
+)
+
+raceResentRepublicanPlot2016 
+widRepublicanPlot2016 
+raceResentRepublicanPlot2020
+widRepublicanPlot2020
+```
+
+```{r}
+#| label: fig-box-whisker-plot-democrat
+#| layout-ncol: 2
+#| fig-cap: "Differences between self-identified Democratic White men and women on Racial resentment and White identity measures"
+#| fig-subcap:
+#|  - "Racial resentment - 2016"
+#|  - "White identity - 2016"
+#|  - "Racial resentment - 2020"
+#|  - "White identity - 2020"
+# Simple cleaning
+Anes2016[["boxDemocrat"]] <- Anes2016[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+][
+  pid <= 3
+]
+Anes2020[["boxDemocrat"]] <- Anes2020[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+][
+  pid <= 3
+]
+Anes2016[["boxDemocrat"]] <- na.omit(Anes2016[["boxDemocrat"]], cols = c("Female"))
+Anes2020[["boxDemocrat"]] <- na.omit(Anes2020[["boxDemocrat"]], cols = c("Female"))
+# Make plots
+raceResentDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+widDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "White identity",
+  caption = "Data source: 2016 American National Election Study."
+)
+
+raceResentDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2020 American National Election Study."
+  )
+
+widDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "White identity",
+  caption = "Data source: 2020 American National Election Study."
+)
+
+raceResentDemocratPlot2016 
+widDemocratPlot2016 
+raceResentDemocratPlot2020
+widDemocratPlot2020
+```
+
+Counter to our expectations, we do not observe much difference between partisan White men and women on levels of racial resentment and white political identity. We do, notice that the average Republican female-identifying respondent is almost one point higher on white identity than the average Republican male-identifying respondent in the 2020 American National Election Study. We do not see similar differences anywhere else which makes us hesitate to read too much into this difference. As the measures available in the American National Election Studies are limited, we want to further examine whether there is any evidence of our expectations. In future iterations of the project we should also consider following the advice of @pietryka_macintosh_2022_jop by first estimating a rasch model on each item, take the standard errors from the rasch models and perform an ANOVA on each group to determine whether the items function differently among White male and female respondents.
+
+# A pre-analysis plan
+
+We intend to collect our own survey data through the platform Prolific. We would like to collect a sample of about 1000 participants to examine whether the complete batteries for racial resentment and white political identity vary in appeal to male and female respondents. In the survey, we intend to collect demographic data as well as self-reported data on the participants' partisanship, attention to politics, and ideology. We will then present participants with the questions in the racial resentment and white political identity battery (as laid out in @jardina_2019_cup).
+
+With these data, we intend to use a Bayesian implementation of item response theory (BIRT) to assess the predictive and informational power of each battery's item on social dominance orientation. We should expect that items that load higher on social dominance orientation would recieve responses indicating more group-based racial attitudes from male respondents, while they would be less successful in eliciting such responses from female respondents.
