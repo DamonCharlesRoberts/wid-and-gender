@@ -48,7 +48,7 @@ author:
     attributes:
       corresponding: false
 abstract: |
-  Are common measures of racial animus and racial identity sufficient to detect gendered differences? The existing literature on gendered political socialization suggests that a number of predictors for racial attitudes, and they way they are expressed, vary depending on if one identifies as a man or a woman. As these precursors to racial attitudes vary on gender, we should expect that the *ways* in which men and women express their racial attitudes may vary as well. Without accounting for this variation in our measures of in-and-out-group racial attitudes, we are likely missing important information about how racial attitudes vary between self-identifying men and women. In this project, we argue that current conceptualizations and measures of racial animus and racial identity are strongly correlated with common outcomes to gendered differences in political socialization. We warn that this may lead to a misunderstanding of a gender gap in racial attitudes when we conceptualize those racial attitudes in one form and not the other. We first present data from the American National Election Study that demonstrates the strong correlation between gender and one's score on racial animus and white political identity. Then, we present a pre-analysis plan for an original survey to capture each item response to predict the gender of the respondent.
+  Are common measures of racial animus and racial identity sufficient to detect gendered differences? The existing literature on gendered political socialization suggests that a number of predictors for racial attitudes, and the way they are expressed, vary depending on if one identifies as a man or a woman. As these precursors to racial attitudes vary on gender, we should expect that the *ways* in which men and women express their racial attitudes may vary as well. Without accounting for this variation in our measures of in-and-out-group racial attitudes, we are likely missing important information about how racial attitudes vary between self-identifying men and women. In this project, we argue that current conceptualizations and measures of racial animus and racial identity are strongly correlated with common outcomes to gendered differences in political socialization. Further, we suspect that particular items in these measures vary on gender. We warn that this may lead to a misunderstanding of a gender gap in racial attitudes when we measure and conceptualize those racial attitudes in one form and not the other. We first present data from the American National Election Study that demonstrates some correlation between gender and one's score on white political identity. Then, we present a pre-analysis plan for an original survey to capture each item response to predict the gender of the respondent.
 additional-info: |
   We have no known conflict of interest to disclose.
 keywords:
@@ -96,11 +96,11 @@ box::use(
 
 # Introduction {#sec-introduction}
 
-What we learn in our adolescense and childhood often have long-term impacts on our political attitudes throughout adulthood [see @sapiro_2004]. This socialization not only influences views on taxation, but also on attitudes about race [see @sears_brown_2013]. This socialization is not homogenous however. Women are often taught about politics differently. Women are often taught that politics is not a domain where they can manage pressures to remain feminine [@schneider_bos_2018_pp], be successful in politics, and that it is not built for them [@bos_et-al_2021_apsr].
+What we learn in our adolescence and childhood often have long-term impacts on our political attitudes throughout adulthood [see @sapiro_2004]. This socialization not only influences views on taxation, but also on attitudes about race [see @sears_brown_2013]. This socialization is not homogenous however. Women are often taught about politics differently. Women are often taught that politics is not a domain where they can manage pressures to remain feminine [@schneider_bos_2018_pp], be successful in politics, and that it is not built for them [@bos_et-al_2021_apsr].
 
 We argue that one important outcome of the differences in the political socialization of men and women is differences in how White men and women express their racial attitudes. As gender identity moderates expression of social dominance orientation [@wilson_liu_2003_bjsp], we should expect that expressions of in-and-out-group racial attitudes appear differently. We do not argue that there is a gender gap in racial attitudes, but rather that differences in socialization among White men and women lead to different ways in which racial attitudes are expressed between those who identify as a man or a woman. Specifically, we predict that White women express racial attitudes that are oriented more communally whereby they express their racial attitudes through in-group oriented racial identification and White men express it through out-group oriented racial animus.
 
-Our argument implies that common measures of racial attitudes are highly correlated with gender as a result of underlying differences in what individuals were taught as "appropriate" for their gender. After elaborating on our argument and defining these concepts, we use the American National Election Study to establish correlations between common measures of racial identity and White political identity with gender identiification. We then present a pre-analysis plan to collect original survey data where we adjust common batteries for racial attitudes to include and exclude items that load onto Social Dominance Orientation. The implication of our project is that we must be careful about making claims about the differences in racial attitudes along the dimension of gender if we do not conceptualize or measure racial attitudes in a way that neutralize underlying differences in political socialization among men and women.
+Our argument implies that common measures of racial attitudes are highly correlated with gender as a result of underlying differences in what individuals were taught as "appropriate" for their gender. After elaborating on our argument and defining these concepts, we use the American National Election Study to establish correlations between common measures of racial identity and White political identity with gender identification. We then present a pre-analysis plan to collect original survey data where we adjust common batteries for racial attitudes to include and exclude items that load onto Social Dominance Orientation. The implication of our project is that we must be careful about making claims about the differences in racial attitudes along the dimension of gender if we do not conceptualize or measure racial attitudes in a way that neutralize underlying differences in political socialization among men and women.
 
 # Conceptualizing social dominance orientation and racial attitudes
 
@@ -508,10 +508,311 @@ raceResentDemocratPlot2020
 widDemocratPlot2020
 ```
 
+
+```{r}
+#| label: fig-box-whisker-plot-republican-item
+#| layout-ncol: 2
+#| fig-cap: "Differences between Republican White men and women on Racial resentment items"
+#| fig-subcap:
+#|  - "Work way up - 2016"
+#|  - "Generations has made it difficult - 2016"
+#|  - "Gotten less than they deserve - 2016"
+#|  - "Try harder to get ahead - 2016"
+#|  - "Work way up - 2020"
+#|  - "Generations has made it difficult - 2020"
+#|  - "Gotten less than they deserve - 2020"
+#|  - "Try harder to get ahead - 2020"
+
+# Make plots
+workRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = work
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Work way up",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+generationsRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = generations
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Generations",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+deserveRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = deserve
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Deserve",
+    caption = "Data source: 2016 American National Election Study."
+  )
+tryRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = try
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Try harder",
+    caption = "Data source: 2016 American National Election Study."
+  )
+workRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = work
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Work harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+generationsRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = generations
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Work harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+deserveRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = deserve
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Deserve",
+  caption = "Data source: 2020 American National Election Study."
+)
+tryRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = try
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Try harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+workRepublicanPlot2016
+generationsRepublicanPlot2016
+deserveRepublicanPlot2016
+tryRepublicanPlot2016
+workRepublicanPlot2020
+generationsRepublicanPlot2020
+deserveRepublicanPlot2020
+tryRepublicanPlot2020
+```
+
+```{r}
+#| label: fig-box-whisker-plot-democrat-item
+#| layout-ncol: 2
+#| fig-cap: "Differences between self-identified Democratic White men and women on Racial resentment items"
+#| fig-subcap:
+#|  - "Work way up - 2016"
+#|  - "Generations has made it difficult - 2016"
+#|  - "Gotten less than they deserve - 2016"
+#|  - "Try harder to get ahead - 2016"
+#|  - "Work way up - 2020"
+#|  - "Generations has made it difficult - 2020"
+#|  - "Gotten less than they deserve - 2020"
+#|  - "Try harder to get ahead - 2020"
+
+# Make plots
+workDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = work
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Work way up",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+generationsDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = generations
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Generations",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+deserveDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = deserve
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Deserve",
+    caption = "Data source: 2016 American National Election Study."
+  )
+tryDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = try
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Try harder",
+    caption = "Data source: 2016 American National Election Study."
+  )
+workDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = work
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Work harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+generationsDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = generations
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Work harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+deserveDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = deserve
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Deserve",
+  caption = "Data source: 2020 American National Election Study."
+)
+tryDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = try
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Try harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+workDemocratPlot2016
+generationsDemocratPlot2016
+deserveDemocratPlot2016
+tryDemocratPlot2016
+workDemocratPlot2020
+generationsDemocratPlot2020
+deserveDemocratPlot2020
+tryDemocratPlot2020
+```
+
 Counter to our expectations, we do not observe much difference between partisan White men and women on levels of racial resentment and white political identity. We do, notice that the average Republican female-identifying respondent is almost one point higher on white identity than the average Republican male-identifying respondent in the 2020 American National Election Study. We do not see similar differences anywhere else which makes us hesitate to read too much into this difference. As the measures available in the American National Election Studies are limited, we want to further examine whether there is any evidence of our expectations. In future iterations of the project we should also consider following the advice of @pietryka_macintosh_2022_jop by first estimating a rasch model on each item, take the standard errors from the rasch models and perform an ANOVA on each group to determine whether the items function differently among White male and female respondents.
 
 # A pre-analysis plan
 
-We intend to collect our own survey data through the platform Prolific. We would like to collect a sample of about 1000 participants to examine whether the complete batteries for racial resentment and white political identity vary in appeal to male and female respondents. In the survey, we intend to collect demographic data as well as self-reported data on the participants' partisanship, attention to politics, and ideology. We will then present participants with the questions in the racial resentment and white political identity battery (as laid out in @jardina_2019_cup).
+According to the ANES data, it appears that there aren't significant differences in how White men and women report on racial identity as a measure or on the individual items. In our data, we only had one item for the white identity measure. Therefore, we would like to re-examine potential gendered differences for these measures with our own original sample which will include the complete batteries for both measures.
 
-With these data, we intend to use a Bayesian implementation of item response theory (BIRT) to assess the predictive and informational power of each battery's item on social dominance orientation. We should expect that items that load higher on social dominance orientation would recieve responses indicating more group-based racial attitudes from male respondents, while they would be less successful in eliciting such responses from female respondents.
+We intend to collect our own survey data through the platform Prolific or YouGov (depending on funding). We would like to collect a sample of about 1000 participants to examine whether the complete batteries for racial resentment and white political identity vary in appeal to male and female respondents. In the survey, we intend to collect demographic data as well as self-reported data on the participants' partisanship, attention to politics, and ideology. We will then present participants with the questions in the racial resentment and white political identity battery (as laid out in @jardina_2019_cup).
+
+With these data, we intend to use a Bayesian implementation of item response theory (BIRT) to assess the predictive and informational power of each battery's item on social dominance orientation. We should expect that items that load higher on social dominance orientation would receive responses indicating more group-based racial attitudes from male respondents, while they would be less successful in eliciting such responses from female respondents.
+
+# Discussion
+
+Our project is in its very early stages and we would love to collect reactions to the theoretical argument we are making given the lack of results from the ANES analyses. Particularly, we are unsure if there are alternative mechanisms that may be more compelling. While our empirical analyses are extremely simple, we first wanted to determine whether there are descriptive differences in the first place before we dig for a mechanism. Perhaps with more complicated analyses, we may find differences. However, given the lack of descriptive differences, we are cautious of results reported from more complicated analyses as we may be finding heterogeneity in gender on these measures as a result of our models rather than any meaningful heterogeneity.
