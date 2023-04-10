@@ -1,4 +1,4 @@
-<h4 align="center">Replication Code: "Double jeopardy: The implications of gender on white's racial attitudes"</h4>
+<h4 align="center">Replication Code: "Not absent, just different: The implications of gender on white's racial attitudes"</h4>
 <p align="center">
     <a href="https://github.com/DamonCharlesRoberts/wid-and-gender/commits/main">
     <img src="https://img.shields.io/github/last-commit/DamonCharlesRoberts/wid-and-gender.svg?style=flat-square&logo=github&logoColor=white"
