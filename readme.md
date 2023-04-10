@@ -11,14 +11,12 @@
          alt="GitHub pull requests"></a>
 </p>
 
-Github repository for academic project titled "Double jeopardy: the implications of gender on white's racial attitudes.
+Github repository for academic project titled "Not absent, just different: the implications of gender on white's racial attitudes."
 
-# File structure
-- data/
-    - anes_timeseries_2016_dta/ : folder containing 2016 ANES dataset
-    - anes_timeseries_20220_csv_20220210/ : folder containing the 2020 ANES dataset
-- drafts/
-    - extensions/ : folder containing Andrew Heiss' hikmah template for pdf files
-    - kk_dcr_wid_gender_draft_sept_22.pdf: pdf file of draft presented in front of APRL at CU on Sept 23rd, 2022
-    - kk_dcr_wid_gender_draft_sept_22.qmd: qmd file used to create kk_dcr_wid_gender_draft_sept_22.pdf. Includes all R code for the analyses as well for replication
-- .gitignore: File specifying what files and folders to pay attention to for version control.
+More details on the project can be found on this Repository's Wiki.
+
+# Maintainers
+
+- [Damon C. Roberts](https://github.com/DamonCharlesRoberts)
+- [Courtney J. Nava]
+- [Komal Preet Kaur](https://github.com/komal-preet)
