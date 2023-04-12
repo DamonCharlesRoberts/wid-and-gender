@@ -1,0 +1,4 @@
+- source: slides.qmd
+  netlify:
+    - id: 15c1769b-0902-49dc-9c23-4136b79ab03b
+      url: 'https://storied-travesseiro-143f56.netlify.app'

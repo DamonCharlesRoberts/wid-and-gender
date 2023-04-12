@@ -1,0 +1,877 @@
+---
+title: "Not absent, just different"
+author:
+  - name: Damon C. Roberts
+    #email: damon.roberts-1@colorado.edu
+    #orcid: 0000-0002-4360-3675
+    title: PhD Candidate
+    affiliations:
+      - id: CU
+        name: University of Colorado Boulder
+        department: Political Science
+        address: 333 UCB
+        city: Boulder
+        region: CO 
+        postal-code: 80309-0333
+    attributes:
+      corresponding: true
+  - name: Courtney J. Nava
+    #email: courtney.j.johnson@colorado.edu
+    title: PhD Candidate
+    affiliations:
+      - id: CU
+        name: University of Colorado Boulder
+        department: Political Science
+        address: 333 UCB
+        city: Boulder
+        region: CO
+        postal-code: 80309-0333
+    attributes:
+      corresponding: false   
+  - name: Komal Preet Kaur
+    #email: komal.kaur@colorado.edu
+    #orcid: 0000-0001-9275-0906
+    title: PhD Candidate
+    affiliations: 
+      - id: CU
+        name: University of Colorado Boulder
+        department: Political Science
+        address: 333 UCB
+        city: Boulder
+        region: CO 
+        postal-code: 80309-0333
+    attributes:
+      corresponding: false
+format:
+  revealjs: 
+    embed-resources: true
+    theme: [dark, ../../assets/custom.scss]
+    transition: slide
+    scrollable: true
+    incremental: true
+    slide-number: true
+    toc: true
+    toc-depth: 1
+    slide-level: 3
+    bibliography: ../../assets/references.bib
+    footer: |
+        <span class="faux-block">{{< fa brands creative-commons >}} 2021-2023 Damon Charles Roberts</span>
+        <span class="faux-block"><br>All content licensed under {{< fa brands creative-commons >}} {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-sa >}} [Creative Commons CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)</span>
+    self-contained: true
+    output-file: slidesMPSA2023.html
+---
+
+# Question
+
+::: footer
+:::
+---
+
+Do self-identifying white men and women report different *types* of racial attitudes as a result of differences in political socialization?
+
+::: footer
+:::
+
+# Motivation of the project
+
+::: footer
+:::
+---
+
+- Men and women are taught about politics differently:
+    - often socialized to believe that politics is a more masculine domain [@bos_et-al_2021_apsr;@lay_et-al_2021_pg]
+    - often socialized to be more conflict avoidant, which doesn't fit into politics -- a domain with conflictual interactions [@wolak_mcdevitt_2011_pb;@wolak_2022_pb]
+    - women often report lower levels of political participation and efficacy [@wolak_2020_jop]
+    - women and those expressing more feminine traits often find less success in high-levels of political participation (i.e., office attainment) [@huddy_terkildsen_1993_prq;@holman_et-al_2016_prq;@schneider_bos_2018_pp]
+
+::: footer
+:::
+---
+
+- These differences often appear in a bunch of different politically-relevant outcomes which are often described as "gender gaps":
+    - Women tend to be more liberal; men tend to be more conservative [@kaufmann_petrocik_1999_ajps]
+        - This even occurs within party identification [@barnes_cassese_2017_prq]
+    - Women tend to report lower levels of social dominance orientation (SDO) than men [@wilson_liu_2003_bjsp].
+
+::: footer
+:::
+
+# How might socialization play a part in reported racial attitudes among whites?
+
+::: footer
+:::
+---
+
+- SDO: the tendency for one to support strong enforcement of existing social hierarchies [@levin_et-al_1998_pp;@feldman_2003_pp]
+    - Often predicts strong, and negative, racial attitudes toward racial groups that present cultural and economic threat [@kteily_et-al_2011_jesp]
+
+::: footer
+:::
+---
+
+- We might expect that the differences between men and women on reported levels of SDO may lead to differences in how men and women report their racial attitudes.
+    - Do not expect that white women have weaker racial attitudes, but rather that they appear differently.
+
+::: footer
+:::
+---
+
+- White supremacist ideology that has permeated throughout U.S. culture which penalizes white women who do not put the protection of the white race ahead of their own interests [@junn_2017_pgi]
+- What this may mean is that while white men can express their racial attitudes in the form of racial animus, white women are socialized into turning inward toward their racial group and looking out for its interests.
+
+::: footer
+:::
+---
+
+- Some measures of racial animus may be more popular among those high in SDO as many of them reflect a hostile attitude toward a change to the racial status quo.
+- Measures of white political identity may be more popular among those lower in SDO as they reflect racial discrimination, however, it is more focused on a desire to recognize one's whiteness and the value it provides as a community for privilege.
+
+::: footer
+:::
+
+---
+```{mermaid}
+%%| label: fig-theory
+%%| fig-cap: Expectations
+flowchart LR;
+A[Gender] -->|Socialization| B[SDO];
+B --> C[Racial attitudes];
+```
+::: footer
+:::
+# Data
+::: footer
+:::
+## Study 1
+::: footer
+:::
+---
+
+- Use the 2016 and 2020 ANES
+
+::: footer
+:::
+
+### Measures
+::: footer
+:::
+---
+- Racial resentment
+  - Irish, Italian, Jewish and many other minorities overcame prejudice and worked their way up. Blacks should do the same without any special favors.
+  - Generations of slavery and discrimination have created conditions that make it difficult for blacks to work their way out of the lower class.
+  - It's really a matter of some people not trying hard enough; if blacks would only try harder they could be just as well off as whites.
+
+::: footer
+:::
+---
+
+- White identity
+  - How important is being white to your identity? (2016 and 2020 ANES)
+  - To what extent do you feel that white people in this country have a lot to be proud of?
+  - How much would you say that whites in this country have a lot in common with one another?
+
+::: footer
+:::
+
+### Are there gendered differences?
+
+```{r}
+#| label: setup-block
+
+# Source cleaning scripts
+source("cleaning/2016ANESCleaning.r")
+source("cleaning/2020ANESCleaning.r")
+
+# Load relevant packages
+box::use(
+  data.table[...],
+  modelsummary[datasummary_skim],
+  ggplot2[ggplot,geom_boxplot, aes, theme_minimal, labs],
+  patchwork[...]
+)
+```
+
+::: footer
+:::
+
+---
+
+```{r}
+#| label: fig-box-whisker-plot
+#| layout-ncol: 2
+#| fig-cap: "Differences between white men and women on Racial resentment and white identity measures"
+#| fig-subcap:
+#|  - "Racial resentment - 2016"
+#|  - "white identity - 2016"
+#|  - "Racial resentment - 2020"
+#|  - "white identity - 2020"
+# Simple cleaning
+Anes2016[["box"]] <- Anes2016[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+]
+Anes2020[["box"]] <- Anes2020[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+]
+Anes2016[["box"]] <- na.omit(Anes2016[["box"]], cols = c("Female"))
+Anes2020[["box"]] <- na.omit(Anes2020[["box"]], cols = c("Female"))
+# Make plots
+raceResentPlot2016 <- ggplot(
+  data = Anes2016[["box"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+widPlot2016 <- ggplot(
+  data = Anes2016[["box"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "white identity",
+  caption = "Data source: 2016 American National Election Study."
+)
+
+raceResentPlot2020 <- ggplot(
+  data = Anes2020[["box"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2020 American National Election Study."
+  )
+
+widPlot2020 <- ggplot(
+  data = Anes2020[["box"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "white identity",
+  caption = "Data source: 2020 American National Election Study."
+)
+
+raceResentPlot2016 
+widPlot2016
+raceResentPlot2020
+widPlot2020
+```
+
+::: footer
+:::
+
+## Study 2
+
+---
+
+- Pre-analysis plan stage
+- Want to do a survey of self-identifying white men and women
+- Probably do it on a platform such as Prolific or try to include it in a CES module (depends on funding).
+
+::: footer
+:::
+
+---
+
+- Use the full batteries for both racial resentment and white identity.
+- Use IRT to predict which items fit are more appealing to men vs. women respondents.
+
+::: footer
+:::
+
+# Feedback
+
+::: footer
+:::
+
+---
+
+- We are at a bit of a crossroads in the project, so we'd love your feedback!
+
+::: footer
+:::
+
+## Contact
+
+- Damon Roberts
+  - damon.charles.roberts[at]gmail.com
+
+::: footer
+:::
+
+# Appendix
+
+```{r}
+#| label: fig-box-whisker-plot-republican
+#| layout-ncol: 2
+#| fig-cap: "Differences between Republican white men and women on Racial resentment and white identity measures"
+#| fig-subcap:
+#|  - "Racial resentment - 2016"
+#|  - "white identity - 2016"
+#|  - "Racial resentment - 2020"
+#|  - "white identity - 2020"
+# Simple cleaning
+Anes2016[["boxRepublican"]] <- Anes2016[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+][
+  pid >= 5
+]
+Anes2020[["boxRepublican"]] <- Anes2020[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+][
+  pid >= 5
+]
+Anes2016[["boxRepublican"]] <- na.omit(Anes2016[["boxRepublican"]], cols = c("Female"))
+Anes2020[["boxRepublican"]] <- na.omit(Anes2020[["boxRepublican"]], cols = c("Female"))
+# Make plots
+raceResentRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+widRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "white identity",
+  caption = "Data source: 2016 American National Election Study."
+)
+
+raceResentRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2020 American National Election Study."
+  )
+
+widRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "white identity",
+  caption = "Data source: 2020 American National Election Study."
+)
+
+raceResentRepublicanPlot2016 
+widRepublicanPlot2016 
+raceResentRepublicanPlot2020
+widRepublicanPlot2020
+```
+
+::: footer
+:::
+
+---
+
+```{r}
+#| label: fig-box-whisker-plot-democrat
+#| layout-ncol: 2
+#| fig-cap: "Differences between self-identified Democratic white men and women on Racial resentment and white identity measures"
+#| fig-subcap:
+#|  - "Racial resentment - 2016"
+#|  - "white identity - 2016"
+#|  - "Racial resentment - 2020"
+#|  - "white identity - 2020"
+# Simple cleaning
+Anes2016[["boxDemocrat"]] <- Anes2016[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+][
+  pid <= 3
+]
+Anes2020[["boxDemocrat"]] <- Anes2020[["cleaned"]][
+  ,Female := factor(
+    female,
+    labels = c(
+      "Male",
+      "Female"
+    ),
+    ordered = TRUE
+  )
+][
+  pid <= 3
+]
+Anes2016[["boxDemocrat"]] <- na.omit(Anes2016[["boxDemocrat"]], cols = c("Female"))
+Anes2020[["boxDemocrat"]] <- na.omit(Anes2020[["boxDemocrat"]], cols = c("Female"))
+# Make plots
+raceResentDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+widDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "white identity",
+  caption = "Data source: 2016 American National Election Study."
+)
+
+raceResentDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = raceResent
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Racial resentment",
+    caption = "Data source: 2020 American National Election Study."
+  )
+
+widDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = wid
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "white identity",
+  caption = "Data source: 2020 American National Election Study."
+)
+
+raceResentDemocratPlot2016 
+widDemocratPlot2016 
+raceResentDemocratPlot2020
+widDemocratPlot2020
+```
+
+::: footer
+:::
+
+---
+
+```{r}
+#| label: fig-box-whisker-plot-republican-item
+#| layout-ncol: 2
+#| fig-cap: "Differences between Republican white men and women on Racial resentment items"
+#| fig-subcap:
+#|  - "Work way up - 2016"
+#|  - "Generations has made it difficult - 2016"
+#|  - "Gotten less than they deserve - 2016"
+#|  - "Try harder to get ahead - 2016"
+#|  - "Work way up - 2020"
+#|  - "Generations has made it difficult - 2020"
+#|  - "Gotten less than they deserve - 2020"
+#|  - "Try harder to get ahead - 2020"
+
+# Make plots
+workRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = work
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Work way up",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+generationsRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = generations
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Generations",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+deserveRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = deserve
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Deserve",
+    caption = "Data source: 2016 American National Election Study."
+  )
+tryRepublicanPlot2016 <- ggplot(
+  data = Anes2016[["boxRepublican"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = try
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Try harder",
+    caption = "Data source: 2016 American National Election Study."
+  )
+workRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = work
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Work harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+generationsRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = generations
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Work harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+deserveRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = deserve
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Deserve",
+  caption = "Data source: 2020 American National Election Study."
+)
+tryRepublicanPlot2020 <- ggplot(
+  data = Anes2020[["boxRepublican"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = try
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Try harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+workRepublicanPlot2016
+generationsRepublicanPlot2016
+deserveRepublicanPlot2016
+tryRepublicanPlot2016
+workRepublicanPlot2020
+generationsRepublicanPlot2020
+deserveRepublicanPlot2020
+tryRepublicanPlot2020
+```
+
+::: footer
+:::
+
+---
+
+```{r}
+#| label: fig-box-whisker-plot-democrat-item
+#| layout-ncol: 2
+#| fig-cap: "Differences between self-identified Democratic white men and women on Racial resentment items"
+#| fig-subcap:
+#|  - "Work way up - 2016"
+#|  - "Generations has made it difficult - 2016"
+#|  - "Gotten less than they deserve - 2016"
+#|  - "Try harder to get ahead - 2016"
+#|  - "Work way up - 2020"
+#|  - "Generations has made it difficult - 2020"
+#|  - "Gotten less than they deserve - 2020"
+#|  - "Try harder to get ahead - 2020"
+
+# Make plots
+workDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = work
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Work way up",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+generationsDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = generations
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Generations",
+    caption = "Data source: 2016 American National Election Study."
+  )
+
+deserveDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = deserve
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Deserve",
+    caption = "Data source: 2016 American National Election Study."
+  )
+tryDemocratPlot2016 <- ggplot(
+  data = Anes2016[["boxDemocrat"]]
+) +
+  geom_boxplot(
+    aes(
+      x = Female,
+      y = try
+    ),
+    fill = "#D3D3D3"
+  ) +
+  theme_minimal() +
+  labs(
+    y = "Try harder",
+    caption = "Data source: 2016 American National Election Study."
+  )
+workDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = work
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Work harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+generationsDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = generations
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Work harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+deserveDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = deserve
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Deserve",
+  caption = "Data source: 2020 American National Election Study."
+)
+tryDemocratPlot2020 <- ggplot(
+  data = Anes2020[["boxDemocrat"]]
+) +
+geom_boxplot(
+  aes(
+    x = Female,
+    y = try
+  ),
+  fill = "#D3D3D3"
+) +
+theme_minimal() +
+labs(
+  y = "Try harder",
+  caption = "Data source: 2020 American National Election Study."
+)
+workDemocratPlot2016
+generationsDemocratPlot2016
+deserveDemocratPlot2016
+tryDemocratPlot2016
+workDemocratPlot2020
+generationsDemocratPlot2020
+deserveDemocratPlot2020
+tryDemocratPlot2020
+```
+
+::: footer
+:::
+
+# References
+
+:::{#refs}
+:::
+::: footer
+:::
